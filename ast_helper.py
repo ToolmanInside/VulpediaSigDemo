@@ -1,7 +1,7 @@
 import json
 import os
-from .solidity_compiler import SolidityCompiler
-from .ast_walker import AstWalker
+from solidity_compiler import SolidityCompiler
+from ast_walker import AstWalker
 
 class AstHelper:
     def __init__(self, filename, input_type, remap, allow_paths=""):
