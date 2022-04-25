@@ -3,6 +3,9 @@ from ast_helper import AstHelper
 from solidity_compiler import SolidityCompiler
 from apted import APTED, helpers
 import numpy as np
+from matplotlib import pyplot as plt
+from scipy.cluster.hierarchy import linkage, dendrogram
+
 
 class Clustering(object):
     def __init__(self, target_folder_path):
@@ -16,6 +19,14 @@ class Clustering(object):
             self.normalized_trees.append(self.normalization(ast, contracts))
         self.distanceMat = self.computeEdtDist(self.normalized_trees)
         print(self.distanceMat)
+        self.clustering(self.distanceMat)
+
+    def clustering(self, distMat):
+        plt.figure(figsize=(20, 6))
+        Z = linkage(distMat, method='ward', metric='euclidean')
+        p = dendrogram(Z, 0)
+        plt.savefig("clustering.png")
+        plt.show()
 
     def edt_distance(self, tree1, tree2):
         apted = APTED(tree1, tree2)

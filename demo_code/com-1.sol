@@ -9,12 +9,12 @@ contract buy1 {
         target.transfer(value);
     }
 
-    function buy(ERC20 _token, address[] _exs, uint[] _indexs, uint256[] _values) public payable {
+    function buy(ERC20 _token, address[] _exs, uint[] _indexs) public payable {
         for (uint i = 0; i < _exs.length; i++)
         {
             bytes memory data = new bytes(_indexs[i+1] - _indexs[i]);
             require(_exs[i] != address(0));
-            transfer(_exs[i], _values[i]);
+            transfer(_exs[i], 10);
         }
     }
 }
