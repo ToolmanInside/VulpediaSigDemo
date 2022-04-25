@@ -10,8 +10,6 @@ class AstHelper:
         if input_type == "solidity":
             self.remap = remap
             self.source_list = self.get_source_list(filename)
-        elif input_type == "standard json":
-            self.source_list = self.get_source_list_standard_json(filename)
         else:
             raise Exception("There is no such type of input")
         self.source = open(filename).read()
@@ -22,6 +20,9 @@ class AstHelper:
             out = f.read()
         out = json.loads(out)
         return out["sources"]
+
+    def get_contracts(self):
+        return self.contracts
 
     def get_source_list(self, filename):
         if self.allow_paths:
@@ -133,7 +134,7 @@ class AstHelper:
                     callee_src_pairs.append((contract_path, node["src"]))
         return callee_src_pairs
 
-    def get_func_name_to_params(self, c_name):
+    def get_func(self, c_name):
         node = self.contracts['contractsByName'][c_name]
         walker = AstWalker()
         func_def_nodes = []
@@ -185,7 +186,7 @@ if __name__ == "__main__":
     contracts = [x[0].split(":")[-1] for x in SolidityCompiler(file_path).output()] # contract name
     for contract in contracts:
         print(contract)
-        o = ast_helper.get_func_name_to_params(contract)
+        o = ast_helper.get_func(contract)
         print(o)
         # a = ast_helper.extract_state_variable_names(contract)
         # print(a)
