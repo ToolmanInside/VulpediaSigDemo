@@ -7,6 +7,12 @@ from matplotlib import pyplot as plt
 from scipy.cluster.hierarchy import linkage, dendrogram
 from logzero import logger
 
+class ContractTaker(object):
+    def __init__(self, file_path, file_name, contracts, ast):
+        self.file_path = file_path
+        self.file_name = file_name
+        self.contracts = contracts
+        self.ast = ast
 
 class Clustering(object):
     def __init__(self, target_folder_path):
@@ -14,10 +20,12 @@ class Clustering(object):
         self.file_list = os.listdir(self.target_folder_path)
         self.normalized_trees = list()
         self.output_contracts = list()
+        self.cts = list()
         for ff in self.file_list:
             file_path = os.path.join(self.target_folder_path, ff)
             ast = AstHelper(file_path, input_type = "solidity", remap = "", allow_paths = "")
             contracts = [x[0].split(":")[-1] for x in SolidityCompiler(file_path).output()]
+            self.cts.append(ContractTaker(file_path, ff, contracts, ast))
             self.normalized_trees.append(self.normalization(ast, contracts))
         self.distanceMat = self.computeEdtDist(self.normalized_trees)
         logger.debug(self.distanceMat)
@@ -52,8 +60,8 @@ class Clustering(object):
                 if i == j:
                     continue
                 elif mat[i][j] <= 15:
-                    clusters.add(self.output_contracts[i])
-                    clusters.add(self.output_contracts[j])
+                    clusters.add((self.output_contracts[i], self.cts[i].file_path))
+                    clusters.add((self.output_contracts[j], self.cts[j].file_path))
         with open('clusters.log', 'w') as f:
             print(clusters, file = f)
 
