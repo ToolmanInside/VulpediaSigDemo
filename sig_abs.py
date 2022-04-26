@@ -59,7 +59,7 @@ def main():
         time.sleep(1)
     logger.debug("Analzing LCS")
     lcs_result = lcs(abstracted_results[0], abstracted_results[1], abstracted_results[2])
-    logger.debug(lcs_result)
+    logger.debug(f"Raw Signature: {lcs_result}")
 
 if __name__ == "__main__":
     main()
