@@ -25,3 +25,8 @@ The signature abstraction is built upon Slither. For installation, please instal
 
 #### Usage
 
+```shell
+python sig_abs.py 
+```
+The script will automatically run Slither analyzer to extract PDGs, and compute the loggest common sequence. Lastly, the result will be output in the terminal line.
+
