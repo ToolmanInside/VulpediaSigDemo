@@ -179,27 +179,3 @@ class AstHelper:
             if contract == cname:
                 return path
         return ""
-
-if __name__ == "__main__":
-    file_path = os.path.join("demo_code", "com-3.sol")
-    ast_helper = AstHelper(file_path, input_type = "solidity", remap = "", allow_paths = "")
-    contracts = [x[0].split(":")[-1] for x in SolidityCompiler(file_path).output()] # contract name
-    for contract in contracts:
-        print(contract)
-        o = ast_helper.get_func(contract)
-        print(o)
-        # a = ast_helper.extract_state_variable_names(contract)
-        # print(a)
-        # b = ast_helper.extract_func_call_srcs(contract)
-        # print(b)
-        # for i in b:
-        #     print("***")
-        #     begin = int(i.split(':')[0]) - 10
-        #     end = begin + int(i.split(':')[1])
-        #     print(ast_helper.source[begin:end])
-        # c = ast_helper.get_callee_src_pairs(contract)
-        # print(c)
-        # d = ast_helper.extract_state_definitions(contract)
-        # print(d)
-        pass
-    
